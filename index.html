@@ -213,117 +213,59 @@
     </div>
 
     <div class="calc-container">
-        <!-- Area Daftar Baris Perhitungan (Tanpa Kolom Keterangan) -->
+        
+        <!-- Area Daftar Baris Perhitungan (Kolom Keterangan Bersih) -->
         <div id="calcRowsContainer">
             <div style="text-align: center; color: #94a3b8; font-size: 0.75rem; padding: 8px;">Belum ada hitungan. Masukkan angka & operator.</div>
         </div>
 
-        <!-- Layar / Input Aktif (Memanggil Keyboard HP) -->
+        <!-- Layar / Input Aktif -->
         <div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #7dd3fc; border-radius: 10px; padding: 10px 12px; margin-bottom: 15px;">
-            
             <span id="activeOpSymbol" style="font-size: 1.3rem; font-weight: bold; color: #0284c7; margin-right: 8px;">+</span>
             
-            <input type="number" id="calcScreen" class="calc-screen" placeholder="0" inputmode="decimal" style="flex: 1; border: none; outline: none; font-size: 1.5rem; text-align: right; background: transparent; font-weight: bold; color: #0f172a; width: 100%;">
+            <!-- 'readonly' dikembalikan agar keyboard HP tidak muncul, type kembali ke 'text' -->
+            <input type="text" id="calcScreen" class="calc-screen" value="0" readonly style="flex: 1; border: none; outline: none; font-size: 1.5rem; text-align: right; background: transparent; font-weight: bold; color: #0f172a; width: 100%;">
             
-            <!-- Kolom keterangan disembunyikan agar JavaScript tidak error -->
+            <!-- Kolom keterangan tetap disembunyikan agar sistem berjalan lancar -->
             <input type="text" id="calcDesc" style="display: none;">
-            
         </div>
 
-        <!-- Tombol Operator Saja (Tombol angka 0-9 sudah dibersihkan) -->
-        <div class="calc-keys" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-            <button class="calc-btn clear" onclick="calcClear()" style="background: #fee2e2; color: #dc2626; border-radius: 8px; padding: 14px; font-weight: bold; border: none; cursor: pointer;">AC</button>
-            <button class="calc-btn op" onclick="calcAddOp('÷')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">÷</button>
-            <button class="calc-btn op" onclick="calcAddOp('×')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">×</button>
-            <button class="calc-btn op" onclick="calcAddOp('-')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">-</button>
+        <!-- Tombol Kalkulator Lengkap & Rapi (Mirip Aplikasi) -->
+        <div class="calc-keys" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
             
-            <button class="calc-btn op" onclick="calcAddOp('+')" style="grid-column: span 2; background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">+</button>
-            <button class="calc-btn equal" onclick="calcEquals()" style="grid-column: span 2; background: #0284c7; color: white; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">=</button>
+            <!-- Baris 1: Fungsi Utama -->
+            <button class="calc-btn clear" onclick="calcClear()" style="background: #fee2e2; color: #dc2626; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.1rem; cursor: pointer;">AC</button>
+            <button class="calc-btn op" onclick="calcBackspace()" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.1rem; cursor: pointer;">⌫</button>
+            <button class="calc-btn op" onclick="calcAppendPercent()" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.1rem; cursor: pointer;">%</button>
+            <button class="calc-btn op" onclick="calcAddOp('÷')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.3rem; cursor: pointer;">÷</button>
+            
+            <!-- Baris 2: Angka & Kali -->
+            <button class="calc-btn" onclick="calcAppendNum('7')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">7</button>
+            <button class="calc-btn" onclick="calcAppendNum('8')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">8</button>
+            <button class="calc-btn" onclick="calcAppendNum('9')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">9</button>
+            <button class="calc-btn op" onclick="calcAddOp('×')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.3rem; cursor: pointer;">×</button>
+
+            <!-- Baris 3: Angka & Kurang -->
+            <button class="calc-btn" onclick="calcAppendNum('4')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">4</button>
+            <button class="calc-btn" onclick="calcAppendNum('5')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">5</button>
+            <button class="calc-btn" onclick="calcAppendNum('6')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">6</button>
+            <button class="calc-btn op" onclick="calcAddOp('-')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.5rem; cursor: pointer;">-</button>
+
+            <!-- Baris 4: Angka & Tambah -->
+            <button class="calc-btn" onclick="calcAppendNum('1')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">1</button>
+            <button class="calc-btn" onclick="calcAppendNum('2')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">2</button>
+            <button class="calc-btn" onclick="calcAppendNum('3')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">3</button>
+            <button class="calc-btn op" onclick="calcAddOp('+')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.3rem; cursor: pointer;">+</button>
+
+            <!-- Baris 5: Nol, Koma & Sama Dengan -->
+            <button class="calc-btn" onclick="calcAppendNum('0')" style="grid-column: span 2; background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.2rem; cursor: pointer;">0</button>
+            <button class="calc-btn" onclick="calcAppendNum('.')" style="background: #ffffff; color: #334155; border-radius: 8px; padding: 14px 0; font-weight: bold; border: 1px solid #e2e8f0; font-size: 1.5rem; cursor: pointer;">.</button>
+            <button class="calc-btn equal" onclick="calcEquals()" style="background: #0284c7; color: white; border-radius: 8px; padding: 14px 0; font-weight: bold; border: none; font-size: 1.3rem; cursor: pointer;">=</button>
+            
         </div>
     </div>
 </div>
 
-        
-        <!-- Tab Laporan -->
-        <div id="reportView" class="hidden">
-            <h2 class="report-header">📊 Data Transaksi</h2>
-            <div class="filter-container">
-                <div class="filter-row">
-                    <label for="dataFilter">Kategori:</label>
-                    <select id="dataFilter" onchange="applyFilter()">
-                        <option value="ALL">Semua Kategori</option>
-                        <option value="HARIAN">Harian</option>
-                        <option value="LAIN2">Lain2</option>
-                        <option value="LAUNDRY">Laundry</option>
-                        <option value="TABUNGAN / ARISAN">Tabungan</option>
-                    </select>
-                </div>
-                <div class="filter-row">
-                    <label for="startDateFilter">Dari Tanggal:</label>
-                    <input type="date" id="startDateFilter" onchange="applyFilter()">
-                </div>
-                <div class="filter-row">
-                    <label for="endDateFilter">Sampai Tanggal:</label>
-                    <input type="date" id="endDateFilter" onchange="applyFilter()">
-                </div>
-            </div>
-
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tgl</th>
-                            <th>Kategori</th>
-                            <th>Keterangan</th>
-                            <th>Nominal</th>
-                            <th>Del</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                    <tfoot>
-                        <tr id="rowRed" class="row-red">
-                            <td colspan="4">TOTAL PENGELUARAN</td>
-                            <td id="repTotalRed" colspan="2">Rp 0</td>
-                        </tr>
-                        <tr id="rowBlue" class="row-blue">
-                            <td colspan="4">TOTAL & TABUNGAN</td>
-                            <td id="repTotalBlue" colspan="2">Rp 0</td>
-                        </tr>
-                        <tr id="rowFilter" class="row-filter hidden">
-                            <td colspan="4" id="filterLabel">TOTAL FILTER</td>
-                            <td id="repTotalFilter" colspan="2">Rp 0</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-        <!-- Modal Input Keuangan -->
-        <div id="inputModal" class="modal-overlay hidden">
-            <div class="modal-box">
-                <h3 id="modalTitle">Catat Pengeluaran</h3>
-                <form id="expenseForm">
-                    <input type="hidden" id="selectedCat">
-                    <div class="form-group">
-                        <label>Tanggal Transaksi</label>
-                        <input type="date" id="expenseDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Keterangan Barang/Jasa</label>
-                        <input type="text" id="expenseDesc" placeholder="Contoh: Beli makan, Beli sabun" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Nominal (Rp)</label>
-                        <input type="number" id="expenseAmount" placeholder="0" min="1" required>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
-                        <button type="submit" class="btn-save" id="btnSave">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <!-- Menu Navigasi Bawah (Footer) -->
         <nav class="bottom-bar">
