@@ -251,32 +251,7 @@ th { background: #f8fafc; color: #64748b; }
     border-radius: 4px;
     cursor: pointer;
 }
-        /* Container Utama Kalkulator */
-.calc-container {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    padding: 16px;
-    border: 1px solid #bae6fd;
-    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.1);
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 120px);
-    overflow: hidden;
-}
-
-/* Area Riwayat Perhitungan (Hanya bagian ini yang di-scroll) */
-#calcRowsContainer {
-    flex: 1;
-    overflow-y: auto;
-    background: #f8fafc;
-    border: 1px solid #bae6fd;
-    border-radius: 14px;
-    padding: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
+        
 
 /* Tampilan Kalkulator Full Layar */
 #calcView {
