@@ -218,10 +218,17 @@
         </div>
 
         <!-- Layar / Input Aktif -->
-        <div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #7dd3fc; border-radius: 10px; padding: 6px 10px; margin-bottom: 10px;">
-            <span id="activeOpSymbol" style="font-size: 1.3rem; font-weight: bold; color: #0284c7; margin-right: 8px;">+</span>
-            <input type="text" id="calcScreen" class="calc-screen" value="0" readonly>
-        </div>
+<div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #7dd3fc; border-radius: 10px; padding: 6px 10px; margin-bottom: 10px;">
+    
+    <span id="activeOpSymbol" style="font-size: 1.3rem; font-weight: bold; color: #0284c7; margin-right: 8px;">+</span>
+    
+    <input type="text" id="calcScreen" class="calc-screen" value="0" readonly>
+    
+    <!-- Kolom keterangan disembunyikan agar JavaScript tidak error -->
+    <input type="text" id="calcDesc" style="display: none;">
+
+</div>
+        
 
         <!-- Tombol Keypad Kalkulator -->
         <div class="calc-keys">
