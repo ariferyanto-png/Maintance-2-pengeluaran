@@ -201,35 +201,33 @@
             </main>
         </div>
 
-                <!-- Tab Kalkulator -->
+                        <!-- Tab Kalkulator -->
         <div id="calcView" class="hidden">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <button type="button" onclick="toggleCalcSidebar()" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 10px; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 2px 6px rgba(14, 165, 233, 0.1);">☰</button>
-                    <h2 id="calcDocTitle" style="font-size: 1.15rem; color: #0369a1; font-weight: 800; margin: 0;">Perhitungan</h2>
+                    <button type="button" onclick="toggleCalcSidebar()" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 10px; width: 38px; height: 38px; font-size: 1.1rem; cursor: pointer; color: #0284c7; font-weight: bold;">☰</button>
+                    <h2 id="calcDocTitle" style="font-size: 1.1rem; color: #0369a1; font-weight: 800; margin: 0;">Perhitungan</h2>
                 </div>
-                <button type="button" onclick="deleteCurrentCalcDoc()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 10px; padding: 8px 12px; font-size: 0.8rem; font-weight: bold; cursor: pointer; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.1);">Hapus Lembar</button>
+                <button type="button" onclick="deleteCurrentCalcDoc()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 10px; padding: 6px 10px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">Hapus Lembar</button>
             </div>
 
             <div class="calc-container">
                 
-                <!-- Area Daftar Baris Perhitungan (Tape) -->
-                <div id="calcRowsContainer" style="flex: 1; overflow-y: auto; background: #f8fafc; border: 1px solid #bae6fd; border-radius: 16px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);">
-                    <div style="text-align: center; color: #94a3b8; font-size: 0.85rem; padding: 10px; margin-top: auto; margin-bottom: auto;">Belum ada hitungan. Masukkan angka & operator.</div>
+                <!-- 1. Area Daftar Perhitungan (Bisa di-scroll ke atas/bawah) -->
+                <div id="calcRowsContainer">
+                    <div style="text-align: center; color: #94a3b8; font-size: 0.85rem; padding: 10px; margin: auto;">Belum ada hitungan. Masukkan angka & operator.</div>
                 </div>
 
-                <!-- Input Keterangan Baris -->
-                <div style="margin-bottom: 12px;">
-                    <input type="text" id="calcNoteInput" placeholder="Keterangan baris (cth: sisa loker, gopay)..." style="width: 100%; padding: 12px 16px; border: 1px solid #7dd3fc; border-radius: 12px; font-size: 0.95rem; background: #ffffff; outline: none; color: #334155; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.05);">
-                </div>
+                <!-- 2. Input Keterangan Baris (Disembunyikan / Hidden) -->
+                <input type="hidden" id="calcNoteInput" value="">
 
-                <!-- Layar / Input Aktif -->
-                <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #bae6fd; border-radius: 16px; padding: 6px 16px; margin-bottom: 16px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);">
-                    <span id="activeOpSymbol" style="font-size: 1.8rem; font-weight: 900; color: #0284c7; margin-right: 12px;">+</span>
+                <!-- 3. Layar / Input Angka Aktif (Tetap Diam di Bawah) -->
+                <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #bae6fd; border-radius: 14px; padding: 4px 14px; margin-bottom: 10px; flex-shrink: 0;">
+                    <span id="activeOpSymbol" style="font-size: 1.6rem; font-weight: 900; color: #0284c7; margin-right: 10px;">+</span>
                     <input type="text" id="calcScreen" class="calc-screen" value="0" readonly>
                 </div>
 
-                <!-- Tombol Kalkulator -->
+                <!-- 4. Tombol Keyboard Kalkulator (Tetap Diam di Bawah) -->
                 <div class="calc-keys">
                     <button class="calc-btn clear" onclick="calcClear()">AC</button>
                     <button class="calc-btn op" onclick="calcAppendPercent()">%</button>
@@ -255,8 +253,10 @@
                     <button class="calc-btn" onclick="calcAppendNum('.')">.</button>
                     <button class="calc-btn equal" onclick="calcEquals()">=</button>
                 </div>
+
             </div>
         </div>
+
 
 
            
