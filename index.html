@@ -200,9 +200,10 @@
                 </div>
             </main>
         </div>
-
-        <!-- Tab Kalkulator -->
+<!-- Tab Kalkulator -->
 <div id="calcView" class="hidden">
+    
+    <!-- Bagian Atas (Header & Tombol Hapus Lembar) -->
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
             <button type="button" onclick="toggleCalcSidebar()" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 8px; width: 36px; height: 36px; font-size: 1rem; cursor: pointer; color: #0284c7; font-weight: bold;">☰</button>
@@ -217,49 +218,31 @@
             <div style="text-align: center; color: #94a3b8; font-size: 0.75rem; padding: 8px;">Belum ada hitungan. Masukkan angka & operator.</div>
         </div>
 
-        <!-- Layar / Input Aktif -->
-<div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #7dd3fc; border-radius: 10px; padding: 6px 10px; margin-bottom: 10px;">
-    
-    <span id="activeOpSymbol" style="font-size: 1.3rem; font-weight: bold; color: #0284c7; margin-right: 8px;">+</span>
-    
-    <input type="text" id="calcScreen" class="calc-screen" value="0" readonly>
-    
-    <!-- Kolom keterangan disembunyikan agar JavaScript tidak error -->
-    <input type="text" id="calcDesc" style="display: none;">
+        <!-- Layar / Input Aktif (Memanggil Keyboard HP) -->
+        <div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #7dd3fc; border-radius: 10px; padding: 10px 12px; margin-bottom: 15px;">
+            
+            <span id="activeOpSymbol" style="font-size: 1.3rem; font-weight: bold; color: #0284c7; margin-right: 8px;">+</span>
+            
+            <input type="number" id="calcScreen" class="calc-screen" placeholder="0" inputmode="decimal" style="flex: 1; border: none; outline: none; font-size: 1.5rem; text-align: right; background: transparent; font-weight: bold; color: #0f172a; width: 100%;">
+            
+            <!-- Kolom keterangan disembunyikan agar JavaScript tidak error -->
+            <input type="text" id="calcDesc" style="display: none;">
+            
+        </div>
 
-</div>
-        
-
-        <!-- Tombol Keypad Kalkulator -->
-        <div class="calc-keys">
-            <button class="calc-btn clear" onclick="calcClear()">AC</button>
-            <button class="calc-btn op" onclick="calcAppendPercent()">%</button>
-            <button class="calc-btn op" onclick="calcBackSpace()">⌫</button>
-            <button class="calc-btn op" onclick="calcAddOp('÷')">÷</button>
-
-            <button class="calc-btn" onclick="calcAppendNum('7')">7</button>
-            <button class="calc-btn" onclick="calcAppendNum('8')">8</button>
-            <button class="calc-btn" onclick="calcAppendNum('9')">9</button>
-            <button class="calc-btn op" onclick="calcAddOp('×')">×</button>
-
-            <button class="calc-btn" onclick="calcAppendNum('4')">4</button>
-            <button class="calc-btn" onclick="calcAppendNum('5')">5</button>
-            <button class="calc-btn" onclick="calcAppendNum('6')">6</button>
-            <button class="calc-btn op" onclick="calcAddOp('-')">-</button>
-
-            <button class="calc-btn" onclick="calcAppendNum('1')">1</button>
-            <button class="calc-btn" onclick="calcAppendNum('2')">2</button>
-            <button class="calc-btn" onclick="calcAppendNum('3')">3</button>
-            <button class="calc-btn op" onclick="calcAddOp('+')">+</button>
-
-            <button class="calc-btn" onclick="calcAppendNum('0')" style="grid-column: span 2;">0</button>
-            <button class="calc-btn" onclick="calcAppendNum('.')">.</button>
-            <button class="calc-btn equal" onclick="calcEquals()">=</button>
+        <!-- Tombol Operator Saja (Tombol angka 0-9 sudah dibersihkan) -->
+        <div class="calc-keys" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+            <button class="calc-btn clear" onclick="calcClear()" style="background: #fee2e2; color: #dc2626; border-radius: 8px; padding: 14px; font-weight: bold; border: none; cursor: pointer;">AC</button>
+            <button class="calc-btn op" onclick="calcAddOp('÷')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">÷</button>
+            <button class="calc-btn op" onclick="calcAddOp('×')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">×</button>
+            <button class="calc-btn op" onclick="calcAddOp('-')" style="background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">-</button>
+            
+            <button class="calc-btn op" onclick="calcAddOp('+')" style="grid-column: span 2; background: #e0f2fe; color: #0284c7; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">+</button>
+            <button class="calc-btn equal" onclick="calcEquals()" style="grid-column: span 2; background: #0284c7; color: white; border-radius: 8px; padding: 14px; font-weight: bold; border: none; font-size: 1.2rem; cursor: pointer;">=</button>
         </div>
     </div>
 </div>
 
-    
         
         <!-- Tab Laporan -->
         <div id="reportView" class="hidden">
