@@ -200,12 +200,11 @@
                 </div>
             </main>
         </div>
-
-                        <!-- Tab Kalkulator -->
+        <!-- Tab Kalkulator -->
         <div id="calcView" class="hidden">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-shrink: 0;">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <button type="button" onclick="toggleCalcSidebar()" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 10px; width: 38px; height: 38px; font-size: 1.1rem; cursor: pointer; color: #0284c7; font-weight: bold;">☰</button>
+                    <button type="button" onclick="toggleCalcSidebar()" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 10px; width: 36px; height: 36px; font-size: 1.1rem; cursor: pointer; color: #0284c7; font-weight: bold;">☰</button>
                     <h2 id="calcDocTitle" style="font-size: 1.1rem; color: #0369a1; font-weight: 800; margin: 0;">Perhitungan</h2>
                 </div>
                 <button type="button" onclick="deleteCurrentCalcDoc()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 10px; padding: 6px 10px; font-size: 0.75rem; font-weight: bold; cursor: pointer;">Hapus Lembar</button>
@@ -213,21 +212,21 @@
 
             <div class="calc-container">
                 
-                <!-- 1. Area Daftar Perhitungan (Bisa di-scroll ke atas/bawah) -->
+                <!-- 1. Area Riwayat Hitungan (Bisa di-scroll) -->
                 <div id="calcRowsContainer">
                     <div style="text-align: center; color: #94a3b8; font-size: 0.85rem; padding: 10px; margin: auto;">Belum ada hitungan. Masukkan angka & operator.</div>
                 </div>
 
-                <!-- 2. Input Keterangan Baris (Disembunyikan / Hidden) -->
+                <!-- Input Keterangan Baris (Disembunyikan) -->
                 <input type="hidden" id="calcNoteInput" value="">
 
-                <!-- 3. Layar / Input Angka Aktif (Tetap Diam di Bawah) -->
-                <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #bae6fd; border-radius: 14px; padding: 4px 14px; margin-bottom: 10px; flex-shrink: 0;">
-                    <span id="activeOpSymbol" style="font-size: 1.6rem; font-weight: 900; color: #0284c7; margin-right: 10px;">+</span>
+                <!-- 2. Layar Input Angka Aktif -->
+                <div class="calc-screen-area">
+                    <span id="activeOpSymbol" style="font-size: 1.5rem; font-weight: 900; color: #0284c7; margin-right: 8px;">+</span>
                     <input type="text" id="calcScreen" class="calc-screen" value="0" readonly>
                 </div>
 
-                <!-- 4. Tombol Keyboard Kalkulator (Tetap Diam di Bawah) -->
+                <!-- 3. Tombol Keyboard Kalkulator -->
                 <div class="calc-keys">
                     <button class="calc-btn clear" onclick="calcClear()">AC</button>
                     <button class="calc-btn op" onclick="calcAppendPercent()">%</button>
@@ -256,7 +255,6 @@
 
             </div>
         </div>
-
 
 
            
