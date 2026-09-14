@@ -201,8 +201,8 @@
             </main>
         </div>
 
-        <!-- TAB KALKULATOR (Tampilan Besar & Lebar) -->
-<div id="calcView" class="hidden" style="display: flex; flex-direction: column; height: 100vh; background: #f8fafc; box-sizing: border-box;">
+        <!-- TAB KALKULATOR (Tampilan Besar & Fungsi Lengkap) -->
+<div id="calcView" style="display: flex; flex-direction: column; height: 100vh; background: #f8fafc; box-sizing: border-box; font-family: sans-serif;">
     
     <!-- Header Atas -->
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: white; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;">
@@ -210,18 +210,18 @@
             <button type="button" onclick="toggleCalcSidebar()" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 8px; width: 38px; height: 38px; color: #0284c7; font-size: 1.2rem; cursor: pointer; font-weight: bold;">☰</button>
             <h2 id="calcDocTitle" style="margin: 0; color: #0369a1; font-size: 1.1rem; font-weight: 800;">Perhitungan(3)</h2>
         </div>
-        <button type="button" onclick="calcHapusSemua()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; font-weight: bold; cursor: pointer;">Hapus Lembar</button>
+        <button type="button" onclick="calcHapusSemua()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer;">Hapus Lembar</button>
     </div>
 
     <!-- Container Utama -->
     <div style="flex: 1; display: flex; flex-direction: column; padding: 12px; gap: 10px; overflow: hidden;">
         
-        <!-- Daftar Baris Riwayat (Bisa Digulir & Ada Kolom Catatan Teks) -->
+        <!-- Daftar Baris Riwayat (Dengan Kolom Teks Keterangan) -->
         <div id="calcRowsContainer" style="flex: 1; overflow-y: auto; background: #ffffff; border: 1px solid #bae6fd; border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
             <div style="text-align: center; color: #94a3b8; font-size: 0.85rem; padding: 16px;">Belum ada hitungan. Masukkan angka & operator.</div>
         </div>
 
-        <!-- Total Keseluruhan (Grand Total) -->
+        <!-- Total Keseluruhan -->
         <div style="text-align: right; font-size: 1.1rem; font-weight: bold; color: #1e293b; padding: 0 4px; flex-shrink: 0;">
             Total: <span id="calcGrandTotalDisplay">0</span>
         </div>
@@ -232,36 +232,35 @@
             <input type="text" id="calcScreen" value="0" readonly style="flex: 1; border: none; outline: none; font-size: 1.6rem; text-align: right; background: transparent; font-weight: bold; color: #0f172a; width: 100%;">
         </div>
 
-        <!-- Keypad Tombol Kalkulator (Lebar & Leluasa) -->
+        <!-- Keypad Tombol Kalkulator (Tampilan Lebar Versi Baru) -->
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex-shrink: 0;">
-            <button type="button" onclick="calcClearScreen()" style="background: #fee2e2; color: #dc2626; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.1rem; font-weight: bold; cursor: pointer;">AC</button>
-            <button type="button" onclick="calcAppendPercent()" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.1rem; font-weight: bold; cursor: pointer;">%</button>
+            <button type="button" onclick="calcClearScreen()" style="background: #fee2e2; color: #dc2626; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.2rem; font-weight: bold; cursor: pointer;">C</button>
             <button type="button" onclick="calcBackspace()" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.2rem; font-weight: bold; cursor: pointer;">⌫</button>
-            <button type="button" onclick="calcAddOp('/')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">÷</button>
+            <button type="button" onclick="calcAddOp('+')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">+</button>
+            <button type="button" onclick="calcAddOp('-')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.5rem; font-weight: bold; cursor: pointer;">-</button>
 
             <button type="button" onclick="calcAppendNum('7')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">7</button>
             <button type="button" onclick="calcAppendNum('8')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">8</button>
             <button type="button" onclick="calcAppendNum('9')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">9</button>
-            <button type="button" onclick="calcAddOp('*')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">×</button>
+            <button type="button" onclick="calcAddOp('-')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.5rem; font-weight: bold; cursor: pointer;">-</button>
 
             <button type="button" onclick="calcAppendNum('4')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">4</button>
             <button type="button" onclick="calcAppendNum('5')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">5</button>
             <button type="button" onclick="calcAppendNum('6')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">6</button>
-            <button type="button" onclick="calcAddOp('-')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.5rem; font-weight: bold; cursor: pointer;">-</button>
+            <button type="button" onclick="calcAddOp('+')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.4rem; font-weight: bold; cursor: pointer;">+</button>
 
             <button type="button" onclick="calcAppendNum('1')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">1</button>
             <button type="button" onclick="calcAppendNum('2')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">2</button>
             <button type="button" onclick="calcAppendNum('3')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">3</button>
-            <button type="button" onclick="calcAddOp('+')" style="background: #e0f2fe; color: #0284c7; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.4rem; font-weight: bold; cursor: pointer;">+</button>
+            <button type="button" onclick="calcEquals()" style="grid-row: span 2; background: #0284c7; color: white; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.6rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);">=</button>
 
             <button type="button" onclick="calcAppendNum('0')" style="grid-column: span 2; background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.3rem; font-weight: bold; cursor: pointer;">0</button>
             <button type="button" onclick="calcAppendNum('.')" style="background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 0; font-size: 1.5rem; font-weight: bold; cursor: pointer;">.</button>
-            <button type="button" onclick="calcEquals()" style="background: #0284c7; color: white; border: none; border-radius: 10px; padding: 14px 0; font-size: 1.5rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);">=</button>
         </div>
     </div>
 </div>
 
-<!-- JAVASCRIPT LOGIKA SAMA DENGAN VIDEO LAMA -->
+<!-- JAVASCRIPT LOGIKA HITUNGAN & CATATAN TEKS -->
 <script>
     let calcTapeRows = [];
     let calcCurrentVal = '0';
@@ -300,55 +299,49 @@
         renderCalcTape();
     }
 
-    function calcAppendPercent() {
-        let val = parseFloat(calcCurrentVal) || 0;
-        calcCurrentVal = (val / 100).toString();
-        document.getElementById('calcScreen').value = calcCurrentVal;
-    }
-
-    // Menambah Angka & Operator ke Tape
     function calcAddOp(nextOp) {
         let valNum = parseFloat(calcCurrentVal) || 0;
         
-        // Pindahkan angka aktif ke riwayat
-        calcTapeRows.push({
-            op: calcCurrentOp,
-            val: valNum,
-            note: ''
-        });
+        if (calcCurrentVal !== '0' || calcTapeRows.length === 0) {
+            calcTapeRows.push({
+                op: calcCurrentOp,
+                val: valNum,
+                note: '',
+                isResult: false
+            });
+        }
 
-        // Set operator untuk hitungan berikutnya
         calcCurrentOp = nextOp;
-        let displayOp = nextOp === '*' ? '×' : (nextOp === '/' ? '÷' : nextOp);
-        document.getElementById('calcActiveOp').innerText = displayOp;
-        
+        document.getElementById('calcActiveOp').innerText = nextOp;
         calcCurrentVal = '0';
         document.getElementById('calcScreen').value = calcCurrentVal;
         renderCalcTape();
     }
 
-    // Tombol Sama Dengan (=): Memasukkan angka terakhir DAN menambahkan baris total
+    // Tombol Sama Dengan (=): Memasukkan baris angka + menambahkan baris total hasil
     function calcEquals() {
         let valNum = parseFloat(calcCurrentVal) || 0;
         
-        // 1. Masukkan angka yang sedang diketik
+        // 1. Masukkan baris angka inputan terakhir
         calcTapeRows.push({
             op: calcCurrentOp,
             val: valNum,
-            note: ''
+            note: '',
+            isResult: false
         });
 
-        // 2. Hitung Total Saat Ini
-        let total = hitungTotalTape();
+        // 2. Hitung akumulasi total
+        let currentTotal = hitungTotalTape();
 
-        // 3. Masukkan baris hasil total ke daftar riwayat (persis video lama)
+        // 3. Tambahkan baris hasil (seperti contoh + 15 atau + 25 pada video lama)
         calcTapeRows.push({
-            op: '=',
-            val: total,
-            note: ''
+            op: '+',
+            val: currentTotal,
+            note: '',
+            isResult: true
         });
 
-        // Reset layar input
+        // Reset layar aktif ke awal
         calcCurrentVal = '0';
         calcCurrentOp = '+';
         document.getElementById('calcActiveOp').innerText = '+';
@@ -356,15 +349,13 @@
         renderCalcTape();
     }
 
-    // Mengalkulasi running total dari seluruh baris
     function hitungTotalTape() {
         let total = 0;
         calcTapeRows.forEach(row => {
-            if (row.op === '+') total += row.val;
-            else if (row.op === '-') total -= row.val;
-            else if (row.op === '*') total *= row.val;
-            else if (row.op === '/') total /= row.val;
-            // Baris hasil '=' diabaikan agar tidak terhitung ganda
+            if (!row.isResult) {
+                if (row.op === '+') total += row.val;
+                else if (row.op === '-') total -= row.val;
+            }
         });
         return total;
     }
@@ -380,7 +371,6 @@
         renderCalcTape();
     }
 
-    // Render Tampilan Baris Riwayat (Termasuk Input Teks Keterangan)
     function renderCalcTape() {
         let container = document.getElementById('calcRowsContainer');
         if (calcTapeRows.length === 0) {
@@ -391,22 +381,16 @@
 
         let html = '';
         calcTapeRows.forEach((row, index) => {
-            let displayOp = row.op === '*' ? '×' : (row.op === '/' ? '÷' : row.op);
-            let isResultRow = row.op === '=';
-            
             html += `
-                <div style="display: flex; align-items: center; justify-content: space-between; background: ${isResultRow ? '#f0fdf4' : 'white'}; padding: 6px 10px; border-radius: 8px; border: 1px solid ${isResultRow ? '#bbf7d0' : '#e2e8f0'}; font-size: 0.95rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; background: ${row.isResult ? '#f0fdf4' : 'white'}; padding: 6px 10px; border-radius: 8px; border: 1px solid ${row.isResult ? '#bbf7d0' : '#e2e8f0'}; font-size: 0.95rem;">
                     
-                    <!-- Simbol & Angka -->
-                    <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; color: ${isResultRow ? '#15803d' : '#0f172a'}; min-width: 90px;">
-                        <span style="color: #0284c7; width: 14px; text-align: center;">${displayOp}</span>
-                        <span>${row.val.toLocaleString('id-ID')}</span>
+                    <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; color: ${row.isResult ? '#15803d' : '#0f172a'}; min-width: 80px;">
+                        <span style="color: #0284c7; width: 14px; text-align: center;">${row.op}</span>
+                        <span>${row.val}</span>
                     </div>
 
-                    <!-- Input Catatan / Teks (Persis Video Lama) -->
-                    <input type="text" value="${row.note || ''}" placeholder="..." onchange="updateRowNote(${index}, this.value)" oninput="updateRowNote(${index}, this.value)" style="flex: 1; margin: 0 10px; border: none; border-bottom: 1px dashed #cbd5e1; outline: none; background: transparent; font-size: 0.85rem; color: #475569; padding: 2px 4px;">
+                    <input type="text" value="${row.note || ''}" placeholder="..." oninput="updateRowNote(${index}, this.value)" style="flex: 1; margin: 0 10px; border: none; border-bottom: 1px dashed #cbd5e1; outline: none; background: transparent; font-size: 0.85rem; color: #475569; padding: 2px 4px;">
 
-                    <!-- Tombol Hapus Baris -->
                     <button type="button" onclick="deleteCalcRow(${index})" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 6px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.75rem; font-weight: bold;">✕</button>
                 </div>
             `;
@@ -415,12 +399,11 @@
         container.innerHTML = html;
         container.scrollTop = container.scrollHeight;
 
-        // Update teks Total di bawah riwayat
         let grandTotal = hitungTotalTape();
         document.getElementById('calcGrandTotalDisplay').innerText = grandTotal.toLocaleString('id-ID');
     }
 </script>
-        
+
 
            
         <!-- Tab Laporan -->
