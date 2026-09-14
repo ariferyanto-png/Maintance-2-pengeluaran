@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sisi Titi Hayati - Catatan Keuangan & Diari</title>
+    <style>
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #e0f2fe; color: #0f172a; display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 450px; background: linear-gradient(135deg, #f0fdf4 0%, #f0f9ff 100%); background-color: #f0f9ff; min-height: 100vh; padding: 16px; padding-bottom: 80px; position: relative; overflow: hidden; }
+        .app-container::before { content: "Sisi Titi Hayati"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 3.5rem; font-weight: 900; color: rgba(14, 165, 233, 0.04); white-space: nowrap; pointer-events: none; z-index: 0; }
+        .app-container > * { position: relative; z-index: 1; }
+        .app-header-title { text-align: center; margin-bottom: 15px; }
+        .app-header-title h1 { font-size: 1.25rem; font-weight: 800; color: #0369a1; letter-spacing: 0.5px; }
+        .app-header-title p { font-size: 0.75rem; color: #64748b; font-weight: 600; }
+        .month-selector-bar { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); padding: 10px 14px; border-radius: 14px; border: 1px solid #bae6fd; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.05); }
+        .month-selector-bar label { font-size: 0.82rem; font-weight: 700; color: #0369a1; }
+        .month-selector-bar input { padding: 5px 8px; border-radius: 8px; border: 1px solid #7dd3fc; background: #f8fafc; font-weight: 600; color: #0f172a; font-size: 0.85rem; outline: none; }
+        .total-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .total-card { padding: 14px 10px; border-radius: 16px; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); backdrop-filter: blur(4px); }
+        .total-card span { font-size: 0.68rem; font-weight: 800; display: block; margin-bottom: 4px; letter-spacing: 0.5px; }
+        .total-card h2 { font-size: 1.1rem; font-weight: 800; }
+        .card-red { background-color: rgba(254, 226, 226, 0.85); border: 1px solid #fca5a5; color: #991b1b; }
+        .card-red h2 { color: #dc2626; }
+        .card-blue { background-color: rgba(219, 234, 254, 0.85); border: 1px solid #93c5fd; color: #1e40af; }
+        .card-blue h2 { color: #2563eb; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .cat-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; min-height: 130px; box-shadow: 0 6px 16px rgba(14, 165, 233, 0.06); border: 1px solid #bae6fd; cursor: pointer; transition: all 0.2s ease; }
+        .cat-card:active { transform: scale(0.96); }
+        
+        .cat-card-full { grid-column: span 2; flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; min-height: 90px; }
+        .cat-card-full .cat-title { margin-top: 0; font-size: 0.95rem; }
+        .cat-card-full .cat-amount { font-size: 0.9rem; }
+
+        .icon-box { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+        .bg-harian { background-color: #e0f2fe; } .bg-lain { background-color: #dcfce7; } .bg-laundry { background-color: #fef9c3; } .bg-arisan { background-color: #f3e8ff; } .bg-catatan { background-color: #fee2e2; }
+        .cat-title { font-weight: 800; font-size: 0.88rem; margin-top: 10px; display: block; }
+        .title-harian { color: #0284c7; } .title-lain { color: #16a34a; } .title-laundry { color: #ca8a04; } .title-arisan { color: #9333ea; } .title-catatan { color: #e11d48; }
+        .cat-amount { font-size: 0.82rem; color: #475569; margin-top: 2px; font-weight: 700; }
+        .report-header { font-size: 1.1rem; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; color: #0369a1; font-weight: 800; }
+        .filter-container { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); padding: 12px; border-radius: 14px; border: 1px solid #bae6fd; margin-bottom: 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.05); }
+        .filter-row { display: flex; align-items: center; justify-content: space-between; }
+        .filter-row label { font-size: 0.8rem; font-weight: 700; color: #0369a1; }
+        .filter-row select, .filter-row input { padding: 6px 8px; border-radius: 8px; border: 1px solid #7dd3fc; background: #f8fafc; font-weight: 600; color: #0f172a; outline: none; font-size: 0.8rem; width: 170px; }
+        .table-wrapper { background: rgba(255, 255, 255, 0.95); border-radius: 14px; border: 1px solid #bae6fd; overflow-x: auto; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.05); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+        th, td { padding: 9px 6px; border: 1px solid #e0f2fe; text-align: left; }
+        th { background-color: #f0f9ff; color: #0369a1; font-weight: 700; }
+        .row-red { background-color: #fee2e2; color: #dc2626; font-weight: bold; }
+        .row-blue { background-color: #dbeafe; color: #2563eb; font-weight: bold; }
+        .row-filter { background-color: #fef3c7; color: #b45309; font-weight: bold; }
+        .btn-del { background: #fee2e2; color: #ef4444; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
+        .modal-box { background: #ffffff; width: 100%; max-width: 360px; padding: 20px; border-radius: 20px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); border: 1px solid #bae6fd; }
+        .modal-box h3 { margin-bottom: 14px; font-size: 1.05rem; color: #0369a1; font-weight: 800; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.8rem; color: #475569; margin-bottom: 4px; font-weight: 600; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #7dd3fc; border-radius: 10px; font-size: 0.9rem; outline: none; background: #f8fafc; }
+        .btn-group { display: flex; gap: 8px; margin-top: 16px; }
+        .btn-group button { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
+        .btn-cancel { background: #f1f5f9; color: #64748b; } .btn-save { background: #0284c7; color: white; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3); }
+        
+        /* Style Sidebar Kalkulator */
+        .calc-sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #ffffff; box-shadow: 4px 0 15px rgba(0,0,0,0.1); z-index: 1100; transition: left 0.3s ease; display: flex; flex-direction: column; border-right: 1px solid #bae6fd; }
+        .calc-sidebar.open { left: 0; }
+        .calc-sidebar-header { padding: 16px; background: #f0f9ff; border-bottom: 1px solid #bae6fd; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: #0369a1; }
+        .calc-sidebar-list { flex: 1; overflow-y: auto; padding: 8px 0; }
+        .calc-sidebar-item { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; cursor: pointer; font-size: 0.85rem; color: #334155; }
+        .calc-sidebar-item:hover { background: #f8fafc; }
+        .calc-sidebar-item.active { background: #e0f2fe; color: #0284c7; font-weight: bold; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(2px); z-index: 1050; display: none; }
+        .sidebar-overlay.show { display: block; }
+
+        .calc-container { background: rgba(255, 255, 255, 0.95); border-radius: 16px; padding: 16px; border: 1px solid #bae6fd; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.08); }
+        .calc-screen { width: 100%; height: 45px; background: #f8fafc; border: 1px solid #7dd3fc; border-radius: 10px; font-size: 1.3rem; text-align: right; padding: 0 10px; color: #0f172a; font-weight: 700; outline: none; }
+        .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .calc-btn { height: 42px; border-radius: 10px; border: 1px solid #bae6fd; background: #ffffff; font-size: 1rem; font-weight: 700; color: #0369a1; cursor: pointer; transition: background 0.1s; }
+        .calc-btn:active { background: #e0f2fe; }
+        .calc-btn.op { background: #e0f2fe; color: #0284c7; }
+        .calc-btn.clear { background: #fee2e2; color: #dc2626; }
+        .calc-btn.equal { background: #0284c7; color: white; grid-column: span 2; }
+
+        .bottom-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #bae6fd; z-index: 100; box-shadow: 0 -4px 15px rgba(14, 165, 233, 0.08); }
+        .nav-btn { background: none; border: none; display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #94a3b8; cursor: pointer; transition: color 0.2s; }
+        .nav-btn.active { color: #0284c7; font-weight: bold; }
+        .nav-btn span:first-child { font-size: 1.2rem; }
+        .loading-indicator { text-align: center; padding: 10px; font-size: 0.8rem; color: #0369a1; font-weight: bold; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Modal Login PIN -->
+    <div id="loginModal" class="modal-overlay hidden">
+        <div class="modal-box" style="text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 8px;">🔒</div>
+            <h3>Sisi Titi Hayati</h3>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 16px;">Masukkan PIN rahasia untuk masuk</p>
+            <div class="form-group">
+                <input type="password" id="pinInput" placeholder="PIN" style="text-align: center; font-size: 1.3rem; letter-spacing: 6px;" maxlength="6" autofocus>
+            </div>
+            <button type="button" class="btn-save" onclick="verifyPin()" style="width: 100%; margin-top: 10px;">Masuk</button>
+        </div>
+    </div>
+
+    <!-- Sidebar Dokumen Kalkulator -->
+    <div class="sidebar-overlay" id="calcOverlay" onclick="toggleCalcSidebar()"></div>
+    <div class="calc-sidebar" id="calcSidebar">
+        <div class="calc-sidebar-header">
+            <span>Daftar Dokumen</span>
+            <button type="button" onclick="createNewCalcDoc()" style="background:#0284c7; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:bold;">+</button>
+        </div>
+        <div class="calc-sidebar-list" id="calcSidebarList"></div>
+    </div>
+
+    <!-- Modal Riwayat Catatan Harian -->
+    <div id="notesModal" class="modal-overlay hidden">
+        <div class="modal-box" style="max-width: 400px; max-height: 85vh; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #0369a1;">📖 Catatan Harian (Diari)</h3>
+                <button type="button" onclick="closeNotesModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:#64748b; font-weight:bold;">✕</button>
+            </div>
+            <button type="button" class="btn-save" onclick="openAddNoteForm()" style="margin-bottom: 12px; padding: 10px; font-size: 0.85rem;">+ Tambah Catatan Baru</button>
+            <div id="notesListContainer" style="overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 8px; padding-right: 2px;"></div>
+        </div>
+    </div>
+
+    <!-- Modal Form Tambah Catatan -->
+    <div id="addNoteModal" class="modal-overlay hidden">
+        <div class="modal-box" style="z-index: 1100;">
+            <h3>Tulis Catatan Harian</h3>
+            <form id="noteForm">
+                <div class="form-group">
+                    <label>Tanggal</label>
+                    <input type="date" id="noteDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Isi Catatan / Kegiatan</label>
+                    <textarea id="noteContent" rows="4" placeholder="Tulis catatan tanggal sekian di sini..." required style="resize: vertical;"></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn-cancel" onclick="closeAddNoteForm()">Batal</button>
+                    <button type="submit" class="btn-save">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <div class="app-header-title">
+            <h1>Sisi Titi Hayati</h1>
+            <p>Pencatatan Keuangan & Diari Pribadi</p>
+        </div>
+
+        <!-- Tab Utama -->
+        <div id="homeView">
+            <div class="month-selector-bar">
+                <label for="homeMonthFilter">Periode Bulan:</label>
+                <input type="month" id="homeMonthFilter" onchange="calculate()" style="width: 140px;">
+            </div>
+
+            <div id="loadingText" class="loading-indicator">Memuat data dari Cloud...</div>
+
+            <header class="total-grid">
+                <div class="total-card card-red">
+                    <span>TOTAL</span>
+                    <h2 id="totalNonTabungan">Rp 0</h2>
+                </div>
+                <div class="total-card card-blue">
+                    <span>TOTAL & TABUNGAN</span>
+                    <h2 id="totalWithTabungan">Rp 0</h2>
+                </div>
+            </header>
+
+            <main class="menu-grid">
+                <div class="cat-card" onclick="openModal('HARIAN')">
+                    <div class="icon-box bg-harian">📆</div>
+                    <div><span class="cat-title title-harian">HARIAN</span><p class="cat-amount" id="sub-HARIAN">Rp 0</p></div>
+                </div>
+                <div class="cat-card" onclick="openModal('LAIN2')">
+                    <div class="icon-box bg-lain">📚</div>
+                    <div><span class="cat-title title-lain">LAIN2</span><p class="cat-amount" id="sub-LAIN2">Rp 0</p></div>
+                </div>
+                <div class="cat-card" onclick="openModal('LAUNDRY')">
+                    <div class="icon-box bg-laundry">🧺</div>
+                    <div><span class="cat-title title-laundry">LAUNDRY</span><p class="cat-amount" id="sub-LAUNDRY">Rp 0</p></div>
+                </div>
+                <div class="cat-card" onclick="openModal('TABUNGAN / ARISAN')">
+                    <div class="icon-box bg-arisan">📔</div>
+                    <div><span class="cat-title title-arisan">TABUNGAN / ARISAN</span><p class="cat-amount" id="sub-TABUNGAN / ARISAN">Rp 0</p></div>
+                </div>
+
+                <div class="cat-card cat-card-full" onclick="openNotesModal()">
+                    <div class="icon-box bg-catatan">📝</div>
+                    <div>
+                        <span class="cat-title title-catatan">CATATAN</span>
+                        <p class="cat-amount" id="sub-CATATAN">0 Catatan</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Tab Kalkulator -->
+<div id="calcView" class="hidden">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button type="button" onclick="toggleCalcSidebar()" style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 8px; width: 34px; height: 34px; font-size: 1rem; cursor: pointer; color: #0284c7; font-weight: bold;">☰</button>
+            <h2 id="calcDocTitle" style="font-size: 1rem; color: #0369a1; font-weight: 800; margin: 0;">Perhitungan</h2>
+        </div>
+        <button type="button" onclick="deleteCurrentCalcDoc()" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 8px; padding: 5px 8px; font-size: 0.7rem; font-weight: bold; cursor: pointer;">Hapus Lembar</button>
+    </div>
+
+    <div class="calc-container" style="display: flex; flex-direction: column; height: calc(100vh - 135px);">
+        
+        <!-- Area Daftar Baris Perhitungan (Tape dengan Pembatas Hasil) -->
+        <div id="calcRowsContainer" style="flex: 1; overflow-y: auto; background: #f8fafc; border: 1px solid #7dd3fc; border-radius: 10px; padding: 6px; margin-bottom: 8px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="text-align: center; color: #94a3b8; font-size: 0.75rem; padding: 8px;">Belum ada hitungan. Masukkan angka & operator.</div>
+        </div>
+
+        <!-- Input Keterangan Baris -->
+        <div style="margin-bottom: 8px;">
+            <input type="text" id="calcNoteInput" placeholder="Keterangan baris (cth: sisa loker, gopay)..." style="width: 100%; padding: 6px 10px; border: 1px solid #7dd3fc; border-radius: 8px; font-size: 0.8rem; background: #ffffff; outline: none; color: #334155;">
+        </div>
+
+        <!-- Layar / Input Aktif -->
+        <div style="display: flex; align-items: center; background: #ffffff; border: 1px solid #7dd3fc; border-radius: 10px; padding: 4px 10px; margin-bottom: 10px;">
+            <span id="activeOpSymbol" style="font-size: 1.2rem; font-weight: bold; color: #0284c7; margin-right: 8px;">+</span>
+            <input type="text" id="calcScreen" class="calc-screen" value="0" readonly>
+        </div>
+
+        <div class="calc-keys">
+            <button class="calc-btn clear" onclick="calcClear()">AC</button>
+            <button class="calc-btn op" onclick="calcAppendPercent()">%</button>
+            <button class="calc-btn op" onclick="calcBackSpace()">⌫</button>
+            <button class="calc-btn op" onclick="calcAddOp('÷')">÷</button>
+
+            <button class="calc-btn" onclick="calcAppendNum('7')">7</button>
+            <button class="calc-btn" onclick="calcAppendNum('8')">8</button>
+            <button class="calc-btn" onclick="calcAppendNum('9')">9</button>
+            <button class="calc-btn op" onclick="calcAddOp('×')">×</button>
+
+            <button class="calc-btn" onclick="calcAppendNum('4')">4</button>
+            <button class="calc-btn" onclick="calcAppendNum('5')">5</button>
+            <button class="calc-btn" onclick="calcAppendNum('6')">6</button>
+            <button class="calc-btn op" onclick="calcAddOp('-')">-</button>
+
+            <button class="calc-btn" onclick="calcAppendNum('1')">1</button>
+            <button class="calc-btn" onclick="calcAppendNum('2')">2</button>
+            <button class="calc-btn" onclick="calcAppendNum('3')">3</button>
+            <button class="calc-btn op" onclick="calcAddOp('+')">+</button>
+
+            <button class="calc-btn" onclick="calcAppendNum('0')" style="grid-column: span 2;">0</button>
+            <button class="calc-btn" onclick="calcAppendNum('.')">.</button>
+            <button class="calc-btn equal" onclick="calcEquals()">=</button>
+        </div>
+    </div>
+</div>
+    
+        
+        <!-- Tab Laporan -->
+        <div id="reportView" class="hidden">
+            <h2 class="report-header">📊 Data Transaksi</h2>
+            <div class="filter-container">
+                <div class="filter-row">
+                    <label for="dataFilter">Kategori:</label>
+                    <select id="dataFilter" onchange="applyFilter()">
+                        <option value="ALL">Semua Kategori</option>
+                        <option value="HARIAN">Harian</option>
+                        <option value="LAIN2">Lain2</option>
+                        <option value="LAUNDRY">Laundry</option>
+                        <option value="TABUNGAN / ARISAN">Tabungan</option>
+                    </select>
+                </div>
+                <div class="filter-row">
+                    <label for="startDateFilter">Dari Tanggal:</label>
+                    <input type="date" id="startDateFilter" onchange="applyFilter()">
+                </div>
+                <div class="filter-row">
+                    <label for="endDateFilter">Sampai Tanggal:</label>
+                    <input type="date" id="endDateFilter" onchange="applyFilter()">
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tgl</th>
+                            <th>Kategori</th>
+                            <th>Keterangan</th>
+                            <th>Nominal</th>
+                            <th>Del</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot>
+                        <tr id="rowRed" class="row-red">
+                            <td colspan="4">TOTAL PENGELUARAN</td>
+                            <td id="repTotalRed" colspan="2">Rp 0</td>
+                        </tr>
+                        <tr id="rowBlue" class="row-blue">
+                            <td colspan="4">TOTAL & TABUNGAN</td>
+                            <td id="repTotalBlue" colspan="2">Rp 0</td>
+                        </tr>
+                        <tr id="rowFilter" class="row-filter hidden">
+                            <td colspan="4" id="filterLabel">TOTAL FILTER</td>
+                            <td id="repTotalFilter" colspan="2">Rp 0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal Input Keuangan -->
+        <div id="inputModal" class="modal-overlay hidden">
+            <div class="modal-box">
+                <h3 id="modalTitle">Catat Pengeluaran</h3>
+                <form id="expenseForm">
+                    <input type="hidden" id="selectedCat">
+                    <div class="form-group">
+                        <label>Tanggal Transaksi</label>
+                        <input type="date" id="expenseDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Keterangan Barang/Jasa</label>
+                        <input type="text" id="expenseDesc" placeholder="Contoh: Beli makan, Beli sabun" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nominal (Rp)</label>
+                        <input type="number" id="expenseAmount" placeholder="0" min="1" required>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+                        <button type="submit" class="btn-save" id="btnSave">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Menu Navigasi Bawah (Footer) -->
+        <nav class="bottom-bar">
+            <button class="nav-btn active" id="btnNavHome" onclick="switchTab('home')">
+                <span>☑️</span><span>Utama</span>
+            </button>
+            <button class="nav-btn" id="btnNavCalc" onclick="switchTab('calc')">
+                <span>➗</span><span>Kalkulator</span>
+            </button>
+            <button class="nav-btn" id="btnNavReport" onclick="switchTab('report')">
+                <span>📊</span><span>Laporan</span>
+            </button>
+        </nav>
+    </div>
+
+    <script>
+        const APP_PIN = "1985";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbznJ2YFGKVXSwquAesKoVa0Y7r8yT7VNg2VRSFCSdBebde5VP9lgBRHMETtqvIyGWfK/exec";
+
+        let expenses = [];
+        let notes = JSON.parse(localStorage.getItem('sisi_notes')) || [];
+        let currentFilter = 'ALL';
+
+        // --- Data Manajemen Kalkulator Multi-Dokumen ---
+        let calcDocs = JSON.parse(localStorage.getItem('sisi_calc_docs')) || [
+            { id: 1, title: 'Perhitungan(3)', rows: [] }
+        ];
+        let currentCalcDocId = parseInt(localStorage.getItem('sisi_calc_current_id')) || calcDocs[0].id;
+        let currentInput = "0";
+        let activeOp = "+";
+        let isCalculated = false;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('sisi_authenticated') !== 'true') {
+                document.getElementById('loginModal').classList.remove('hidden');
+            } else {
+                initApp();
+            }
+        });
+
+        function verifyPin() {
+            const input = document.getElementById('pinInput').value;
+            if (input === APP_PIN) {
+                localStorage.setItem('sisi_authenticated', 'true');
+                document.getElementById('loginModal').classList.add('hidden');
+                initApp();
+            } else {
+                alert("PIN salah!");
+                document.getElementById('pinInput').value = '';
+                document.getElementById('pinInput').focus();
+            }
+        }
+
+        function initApp() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('homeMonthFilter').value = `${year}-${month}`;
+            updateNotesCount();
+            loadData();
+            loadCalcDoc();
+        }
+
+                async function loadData() {
+            const loading = document.getElementById('loadingText');
+            
+            // 1. Cek apakah ada data di cache lokal
+            const cachedExpenses = localStorage.getItem('sisi_expenses_cache');
+            
+            if (cachedExpenses) {
+                // Jika ada cache, langsung gunakan untuk menampilkan data tanpa loading
+                expenses = JSON.parse(cachedExpenses);
+                calculate();
+                loading.classList.add('hidden'); // Sembunyikan teks loading
+            } else {
+                // Jika belum ada cache sama sekali, tampilkan loading
+                loading.classList.remove('hidden');
+            }
+
+            try {
+                // 2. Ambil data terbaru dari Cloud (Google Sheets) secara diam-diam
+                const response = await fetch(WEB_APP_URL);
+                const newData = await response.json();
+                
+                // Cek apakah data dari cloud berbeda dengan cache
+                if (JSON.stringify(newData) !== cachedExpenses) {
+                    expenses = newData;
+                    // Perbarui cache dengan data terbaru
+                    localStorage.setItem('sisi_expenses_cache', JSON.stringify(expenses));
+                    // Hitung dan render ulang dengan data terbaru
+                    calculate();
+                }
+                
+                loading.classList.add('hidden');
+            } catch (error) {
+                if (!cachedExpenses) {
+                    loading.textContent = "Gagal memuat dari Cloud. Pastikan internet aktif!";
+                }
+                console.error("Gagal sinkronisasi background:", error);
+            }
+        }
+
+
+        function normalizeDate(dateStr) {
+            if (!dateStr) return '';
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+            const d = new Date(dateStr);
+            if (!isNaN(d.getTime())) {
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            return dateStr;
+        }
+
+        function formatRp(val) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(val);
+        }
+
+        function formatDateShort(dateStr) {
+            const norm = normalizeDate(dateStr);
+            const parts = norm.split('-');
+            if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            return dateStr;
+        }
+
+        function applyFilter() {
+            currentFilter = document.getElementById('dataFilter').value;
+            calculate();
+        }
+
+        function calculate() {
+            const categories = ['HARIAN', 'LAIN2', 'LAUNDRY', 'TABUNGAN / ARISAN'];
+            let totalPengeluaran = 0;
+            let totalTabungan = 0;
+            const selectedMonth = document.getElementById('homeMonthFilter').value;
+
+            const monthlyExpenses = expenses.filter(item => {
+                if (!selectedMonth) return true;
+                const normDate = normalizeDate(item.date);
+                return normDate && normDate.startsWith(selectedMonth);
+            });
+
+            categories.forEach(cat => {
+                const catSum = monthlyExpenses.filter(item => item.category === cat).reduce((sum, item) => sum + Number(item.amount), 0);
+                const el = document.getElementById(`sub-${cat}`);
+                if (el) el.textContent = formatRp(catSum);
+
+                if (cat === 'TABUNGAN / ARISAN') {
+                    totalTabungan = catSum;
+                } else {
+                    totalPengeluaran += catSum;
+                }
+            });
+
+            const grandTotal = totalPengeluaran + totalTabungan;
+            document.getElementById('totalNonTabungan').textContent = formatRp(totalPengeluaran);
+            document.getElementById('totalWithTabungan').textContent = formatRp(grandTotal);
+
+            renderTable(totalPengeluaran, grandTotal);
+        }
+
+        function renderTable(sumRed, sumBlue) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            const startDate = document.getElementById('startDateFilter').value;
+            const endDate = document.getElementById('endDateFilter').value;
+
+            let dataToDisplay = expenses.filter(item => {
+                const normDate = normalizeDate(item.date);
+                const matchCategory = (currentFilter === 'ALL' || item.category === currentFilter);
+                const matchStart = (!startDate || normDate >= startDate);
+                const matchEnd = (!endDate || normDate <= endDate);
+                return matchCategory && matchStart && matchEnd;
+            });
+
+            dataToDisplay.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${formatDateShort(item.date).substring(0, 5)}</td>
+                    <td><strong>${item.category}</strong></td>
+                    <td>${item.desc}</td>
+                    <td style="font-weight:600;">${formatRp(item.amount)}</td>
+                    <td><button class="btn-del" onclick="deleteItem('${item.id}')">✕</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const rowRed = document.getElementById('rowRed');
+            const rowBlue = document.getElementById('rowBlue');
+            const rowFilter = document.getElementById('rowFilter');
+
+            if (currentFilter === 'ALL' && !startDate && !endDate) {
+                rowRed.classList.remove('hidden');
+                rowBlue.classList.remove('hidden');
+                rowFilter.classList.add('hidden');
+                document.getElementById('repTotalRed').textContent = formatRp(sumRed);
+                document.getElementById('repTotalBlue').textContent = formatRp(sumBlue);
+            } else {
+                rowRed.classList.add('hidden');
+                rowBlue.classList.add('hidden');
+                rowFilter.classList.remove('hidden');
+                const filterSum = dataToDisplay.reduce((sum, item) => sum + Number(item.amount), 0);
+                let labelText = currentFilter === 'ALL' ? 'TOTAL FILTER' : `TOTAL ${currentFilter}`;
+                document.getElementById('filterLabel').textContent = labelText;
+                document.getElementById('repTotalFilter').textContent = formatRp(filterSum);
+            }
+        }
+
+        // --- Logika Kalkulator Tape (Diperbaiki) ---
+        function saveCalcStorage() {
+            localStorage.setItem('sisi_calc_docs', JSON.stringify(calcDocs));
+            localStorage.setItem('sisi_calc_current_id', currentCalcDocId);
+        }
+
+        function getCurrentCalcDoc() {
+            let doc = calcDocs.find(d => d.id === currentCalcDocId);
+            if (!doc) {
+                doc = calcDocs[0];
+                currentCalcDocId = doc.id;
+            }
+            return doc;
+        }
+
+        function toggleCalcSidebar() {
+            document.getElementById('calcSidebar').classList.toggle('open');
+            document.getElementById('calcOverlay').classList.toggle('show');
+            renderCalcSidebar();
+        }
+
+        function renderCalcSidebar() {
+            const listEl = document.getElementById('calcSidebarList');
+            listEl.innerHTML = '';
+            calcDocs.forEach(doc => {
+                const item = document.createElement('div');
+                item.className = `calc-sidebar-item ${doc.id === currentCalcDocId ? 'active' : ''}`;
+                item.innerHTML = `<span>${doc.title}</span>`;
+                item.onclick = () => switchCalcDoc(doc.id);
+                listEl.appendChild(item);
+            });
+        }
+
+        function switchCalcDoc(id) {
+            currentCalcDocId = id;
+            currentInput = "0";
+            activeOp = "+";
+            isCalculated = false;
+            saveCalcStorage();
+            toggleCalcSidebar();
+            loadCalcDoc();
+        }
+
+        function createNewCalcDoc() {
+            const titleName = prompt("Masukkan nama dokumen/lembar baru:", `Perhitungan(${calcDocs.length + 1})`);
+            if (!titleName) return;
+            const newDoc = {
+                id: Date.now(),
+                title: titleName,
+                rows: []
+            };
+            calcDocs.push(newDoc);
+            currentCalcDocId = newDoc.id;
+            currentInput = "0";
+            activeOp = "+";
+            isCalculated = false;
+            saveCalcStorage();
+            toggleCalcSidebar();
+            loadCalcDoc();
+        }
+
+        function deleteCurrentCalcDoc() {
+            if (calcDocs.length <= 1) {
+                alert("Minimal harus ada satu lembar perhitungan!");
+                return;
+            }
+            if (!confirm("Hapus lembar perhitungan ini?")) return;
+            calcDocs = calcDocs.filter(d => d.id !== currentCalcDocId);
+            currentCalcDocId = calcDocs[0].id;
+            saveCalcStorage();
+            loadCalcDoc();
+        }
+
+        function loadCalcDoc() {
+            const doc = getCurrentCalcDoc();
+            document.getElementById('calcDocTitle').textContent = doc.title;
+            renderCalcRows();
+            updateCalcDisplay();
+        }
+
+                function updateCalcDisplay() {
+            const numVal = parseFloat(currentInput);
+            document.getElementById('calcScreen').value = isNaN(numVal) ? currentInput : numVal.toLocaleString('id-ID');
+            document.getElementById('activeOpSymbol').textContent = activeOp;
+        }
+
+        function calcAppendNum(num) {
+            if (isCalculated) {
+                const doc = getCurrentCalcDoc();
+                const lastRow = doc.rows[doc.rows.length - 1];
+                if (lastRow && lastRow.isResult) {
+                    doc.rows.push({ isSpace: true });
+                    saveCalcStorage();
+                    renderCalcRows();
+                }
+                isCalculated = false;
+            }
+            if (currentInput === "0" && num !== ".") {
+                currentInput = num;
+            } else {
+                if (num === "." && currentInput.includes(".")) return;
+                currentInput += num;
+            }
+            updateCalcDisplay();
+        }
+
+        function calcBackSpace() {
+            if (isCalculated) return;
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = "0";
+            }
+            updateCalcDisplay();
+        }
+
+        function calcClear() {
+            const doc = getCurrentCalcDoc();
+            doc.rows = [];
+            currentInput = "0";
+            activeOp = "+";
+            isCalculated = false;
+            document.getElementById('calcNoteInput').value = '';
+            saveCalcStorage();
+            renderCalcRows();
+            updateCalcDisplay();
+        }
+
+        function calcAddOp(op) {
+            if (isCalculated) {
+                isCalculated = false;
+            }
+            const val = parseFloat(currentInput);
+            if (!isNaN(val) && (val !== 0 || currentInput !== "0")) {
+                const doc = getCurrentCalcDoc();
+                const noteText = document.getElementById('calcNoteInput').value.trim();
+                doc.rows.push({ op: activeOp, val: val, note: noteText });
+                currentInput = "0";
+                document.getElementById('calcNoteInput').value = '';
+                saveCalcStorage();
+            }
+            activeOp = op;
+            renderCalcRows();
+            updateCalcDisplay();
+        }
+
+        function calcEquals() {
+            const doc = getCurrentCalcDoc();
+            const val = parseFloat(currentInput);
+            
+            if (isCalculated && currentInput === "0") {
+                const lastRow = doc.rows[doc.rows.length - 1];
+                if (lastRow && lastRow.isResult) {
+                    doc.rows.push({ isSpace: true });
+                    isCalculated = false;
+                    saveCalcStorage();
+                    renderCalcRows();
+                }
+                return;
+            }
+
+            if (!isNaN(val) && (val !== 0 || currentInput !== "0")) {
+                const noteText = document.getElementById('calcNoteInput').value.trim();
+                doc.rows.push({ op: activeOp, val: val, note: noteText });
+                currentInput = "0";
+                document.getElementById('calcNoteInput').value = '';
+            }
+
+            if (doc.rows.length === 0) return;
+
+            const lastRow = doc.rows[doc.rows.length - 1];
+            if (lastRow && (lastRow.isResult || lastRow.isSpace)) return;
+
+            const resultNoteText = document.getElementById('calcNoteInput').value.trim();
+            document.getElementById('calcNoteInput').value = '';
+            doc.rows.push({ isResult: true, note: resultNoteText });
+
+            currentInput = "0";
+            activeOp = "+";
+            isCalculated = true;
+            saveCalcStorage();
+            renderCalcRows();
+            updateCalcDisplay();
+        }
+
+                function renderCalcRows() {
+            const doc = getCurrentCalcDoc();
+            const container = document.getElementById('calcRowsContainer');
+            container.innerHTML = '';
+
+            if (doc.rows.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #94a3b8; font-size: 0.75rem; padding: 8px;">Belum ada hitungan. Masukkan angka & operator.</div>';
+                return;
+            }
+
+            let blockTotal = 0;
+
+            doc.rows.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.justifyContent = 'space-between';
+                div.style.alignItems = 'center';
+                div.style.padding = '6px 8px';
+                div.style.fontSize = '0.85rem';
+                div.style.borderBottom = '1px dashed #e2e8f0';
+
+                if (item.isSpace) {
+                    blockTotal = 0;
+                    div.style.height = '24px';
+                    div.innerHTML = `
+                        <div style="flex: 1;"></div>
+                        <button type="button" onclick="removeCalcRow(${index})" style="background: #fee2e2; color: #ef4444; border: none; border-radius: 4px; width: 18px; height: 18px; font-size: 0.65rem; cursor: pointer; font-weight: bold;">✕</button>
+                    `;
+                } 
+                else if (item.isResult) {
+                    div.style.borderTop = '2px solid #0284c7';
+                    div.style.backgroundColor = '#f0f9ff';
+                    div.style.fontWeight = '700';
+
+                    div.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden;">
+                            <span style="color: #0284c7; min-width: 90px;">= ${blockTotal.toLocaleString('id-ID')}</span>
+                            <input type="text" value="${item.note || ''}" placeholder="..." onchange="updateRowNote(${index}, this.value)" style="border: 1px solid transparent; background: transparent; font-size: 0.8rem; color: #334155; width: 100%; outline: none;" onfocus="this.style.border='1px solid #cbd5e1'; this.style.background='#fff';" onblur="this.style.border='1px solid transparent'; this.style.background='transparent';">
+                        </div>
+                        <button type="button" onclick="removeCalcRow(${index})" style="background: #fee2e2; color: #ef4444; border: none; border-radius: 4px; width: 18px; height: 18px; font-size: 0.65rem; cursor: pointer; font-weight: bold; flex-shrink: 0;">✕</button>
+                    `;
+                } 
+                else {
+                    if (item.op === '+') blockTotal += item.val;
+                    else if (item.op === '-') blockTotal -= item.val;
+                    else if (item.op === '×') blockTotal *= item.val;
+                    else if (item.op === '÷') blockTotal /= (item.val !== 0 ? item.val : 1);
+
+                    div.style.fontWeight = '600';
+                    const formattedVal = item.val.toLocaleString('id-ID');
+
+                    div.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden;">
+                            <span style="color: #0369a1; min-width: 90px;">${item.op} ${formattedVal}</span>
+                            <input type="text" value="${item.note || ''}" placeholder="..." onchange="updateRowNote(${index}, this.value)" style="border: 1px solid transparent; background: transparent; font-size: 0.8rem; color: #334155; width: 100%; outline: none;" onfocus="this.style.border='1px solid #cbd5e1'; this.style.background='#fff';" onblur="this.style.border='1px solid transparent'; this.style.background='transparent';">
+                        </div>
+                        <button type="button" onclick="removeCalcRow(${index})" style="background: #fee2e2; color: #ef4444; border: none; border-radius: 4px; width: 18px; height: 18px; font-size: 0.65rem; cursor: pointer; font-weight: bold; flex-shrink: 0;">✕</button>
+                    `;
+                }
+                container.appendChild(div);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Tambahkan fungsi ini tepat di bawah renderCalcRows agar catatan bisa langsung diedit
+        function updateRowNote(index, newNote) {
+            const doc = getCurrentCalcDoc();
+            if (doc.rows[index]) {
+                doc.rows[index].note = newNote;
+                saveCalcStorage();
+            }
+        }
+        
+
+        function removeCalcRow(index) {
+            const doc = getCurrentCalcDoc();
+            doc.rows.splice(index, 1);
+            isCalculated = false;
+            saveCalcStorage();
+            renderCalcRows();
+            updateCalcDisplay();
+        }
+
+        function calcAppendPercent() {
+            let val = parseFloat(currentInput);
+            if (!isNaN(val)) {
+                currentInput = String(val / 100);
+                updateCalcDisplay();
+            }
+        }
+        
+
+
+        // --- Logika Catatan Harian (Diari) ---
+        function updateNotesCount() {
+            const el = document.getElementById('sub-CATATAN');
+            if (el) el.textContent = `${notes.length} Catatan`;
+        }
+
+        function openNotesModal() {
+            renderNotesList();
+            document.getElementById('notesModal').classList.remove('hidden');
+        }
+
+        function closeNotesModal() {
+            document.getElementById('notesModal').classList.add('hidden');
+        }
+
+        function openAddNoteForm() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('noteDate').value = today;
+            document.getElementById('noteContent').value = '';
+            document.getElementById('addNoteModal').classList.remove('hidden');
+        }
+
+        function closeAddNoteForm() {
+            document.getElementById('addNoteModal').classList.add('hidden');
+        }
+
+        document.getElementById('noteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const date = document.getElementById('noteDate').value;
+            const content = document.getElementById('noteContent').value.trim();
+
+            if (!date || !content) return;
+
+            const newNote = {
+                id: Date.now().toString(),
+                date: date,
+                content: content
+            };
+
+            notes.unshift(newNote);
+            notes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            localStorage.setItem('sisi_notes', JSON.stringify(notes));
+
+            updateNotesCount();
+            closeAddNoteForm();
+            renderNotesList();
+        });
+
+        function deleteNote(id) {
+            if (!confirm("Hapus catatan ini?")) return;
+            notes = notes.filter(n => n.id.toString() !== id.toString());
+            localStorage.setItem('sisi_notes', JSON.stringify(notes));
+            updateNotesCount();
+            renderNotesList();
+        }
+
+        function renderNotesList() {
+            const container = document.getElementById('notesListContainer');
+            container.innerHTML = '';
+
+            if (notes.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #64748b; font-size: 0.85rem; padding: 20px;">Belum ada catatan harian.</p>';
+                return;
+            }
+
+            notes.forEach(note => {
+                const div = document.createElement('div');
+                div.style.background = '#f8fafc';
+                div.style.border = '1px solid #bae6fd';
+                div.style.borderRadius = '12px';
+                div.style.padding = '10px 12px';
+
+                div.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-size: 0.75rem; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 2px 6px; border-radius: 6px;">📅 ${formatDateShort(note.date)}</span>
+                        <button type="button" onclick="deleteNote('${note.id}')" style="background: #fee2e2; color: #ef4444; border: none; padding: 2px 6px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">✕ Hapus</button>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #0f172a; white-space: pre-wrap; word-break: break-word; line-height: 1.4;">${note.content}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function openModal(cat) {
+            document.getElementById('selectedCat').value = cat;
+            document.getElementById('modalTitle').textContent = `Catat: ${cat}`;
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
+            document.getElementById('inputModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('inputModal').classList.add('hidden');
+            document.getElementById('expenseForm').reset();
+        }
+
+        document.getElementById('expenseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const cat = document.getElementById('selectedCat').value;
+            const date = document.getElementById('expenseDate').value;
+            const desc = document.getElementById('expenseDesc').value.trim();
+            const amount = parseFloat(document.getElementById('expenseAmount').value) || 0;
+
+            if (!desc || amount <= 0 || !date) return;
+
+            const newItem = { id: Date.now().toString(), date: date, category: cat, desc: desc, amount: amount };
+
+            expenses.push(newItem);
+            document.getElementById('homeMonthFilter').value = date.substring(0, 7);
+            calculate();
+            closeModal();
+
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'add', ...newItem })
+            }).catch(err => alert("Gagal sinkron ke cloud, periksa internet!"));
+        });
+
+        function deleteItem(id) {
+            if (!confirm("Hapus transaksi ini?")) return;
+
+            expenses = expenses.filter(item => item.id.toString() !== id.toString());
+            calculate();
+
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'delete', id: id })
+            }).catch(err => alert("Gagal menghapus dari cloud!"));
+        }
+
+        function switchTab(tab) {
+            const homeView = document.getElementById('homeView');
+            const calcView = document.getElementById('calcView');
+            const reportView = document.getElementById('reportView');
+            
+            const btnNavHome = document.getElementById('btnNavHome');
+            const btnNavCalc = document.getElementById('btnNavCalc');
+            const btnNavReport = document.getElementById('btnNavReport');
+
+            homeView.classList.add('hidden');
+            calcView.classList.add('hidden');
+            reportView.classList.add('hidden');
+            
+            btnNavHome.classList.remove('active');
+            btnNavCalc.classList.remove('active');
+            btnNavReport.classList.remove('active');
+
+            if (tab === 'home') {
+                homeView.classList.remove('hidden');
+                btnNavHome.classList.add('active');
+            } else if (tab === 'calc') {
+                calcView.classList.remove('hidden');
+                btnNavCalc.classList.add('active');
+            } else if (tab === 'report') {
+                reportView.classList.remove('hidden');
+                btnNavReport.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

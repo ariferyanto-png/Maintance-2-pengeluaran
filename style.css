@@ -1,0 +1,253 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: #f2f5f9;
+    color: #334155;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.app-screen {
+    width: 100%;
+    max-width: 450px;
+    background-color: #f8fafc;
+    min-height: 100vh;
+    padding: 16px;
+    padding-bottom: 80px;
+    position: relative;
+}
+
+/* Header Total */
+.top-bar {
+    margin-bottom: 20px;
+}
+
+.total-box {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+}
+
+.total-box span {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.total-box h1 {
+    font-size: 1.6rem;
+    color: #0f172a;
+    margin-top: 4px;
+}
+
+/* Grid Menu Kartu */
+.grid-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.category-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 130px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.category-card:active {
+    transform: scale(0.96);
+}
+
+.icon-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+/* Warna Ikon Pastel */
+.icon-harian { background-color: #e0f2fe; }
+.icon-lain { background-color: #dcfce7; }
+.icon-laundry { background-color: #fef9c3; }
+.icon-arisan { background-color: #f3e8ff; }
+
+/* Teks Judul Kategori */
+.label {
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: block;
+    margin-top: 10px;
+}
+
+.text-harian { color: #f43f5e; }
+.text-lain { color: #0284c7; }
+.text-laundry { color: #8b5cf6; }
+.text-arisan { color: #d946ef; }
+
+.sub-total {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.nav-item.active {
+    color: #0284c7;
+    font-weight: bold;
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+}
+
+/* Modal Form */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 360px;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.modal-content h3 {
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+}
+
+.form-field {
+    margin-bottom: 12px;
+}
+
+.form-field label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    color: #64748b;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancel { background: #f1f5f9; color: #64748b; }
+.btn-save { background: #0284c7; color: white; }
+
+/* Tabel Laporan Excel */
+.hidden { display: none !important; }
+
+.report-header h2 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+th, td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+th { background: #f8fafc; color: #64748b; }
+
+.sum-row {
+    background: #f1f5f9;
+    font-weight: bold;
+    color: #f43f5e;
+}
+
+.btn-del-row {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
