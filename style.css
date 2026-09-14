@@ -260,7 +260,7 @@ th { background: #f8fafc; color: #64748b; }
     left: 0;
     width: 100%;
     /* Mengunci tinggi agar tidak menabrak tombol navigasi di bawah */
-    height: calc(100vh - 110px); 
+    height: calc(100vh - 150px); 
     z-index: 50;
     background: #f8fafc;
     padding: 16px;
